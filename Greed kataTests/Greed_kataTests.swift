@@ -161,6 +161,14 @@ class Greed_kataTests: XCTestCase {
     // MARK: - Pairs
     
     func test_3PairsReturns800Points() {
+        let threePairsRule = ThreePairs(
+            doubleRule:
+                SameInRowRule(
+                    repeatableCount: 2
+                )
+            )
+        
+        sut = Calculator(rules: [threePairsRule])
         let result = sut.calculate([2,2,3,3,4,4])
         XCTAssertEqual(result, 800)
     }

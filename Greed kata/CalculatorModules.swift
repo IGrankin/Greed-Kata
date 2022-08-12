@@ -13,6 +13,51 @@ protocol CalculatorRule: AnyObject {
     var priority: Int { get }
 }
 
+// MARK: - Three pairs
+
+public class ThreePairs: CalculatorRule {
+    var priority: Int = 10
+    var doubleRule: CalculatorRule!
+    
+    init(doubleRule: CalculatorRule) {
+        self.doubleRule = doubleRule
+    }
+    
+    func sum(with originSet: NSCountedSet) -> Output {
+        let outputSet = originSet.copy() as! NSCountedSet
+        var setForEnumaration = originSet.copy() as! NSCountedSet
+        var previousCount = originSet.intArray().count
+        var containsPairs = true
+        var sum = 0
+        
+        for _ in 0...2 {
+            let output = doubleRule.sum(with: setForEnumaration)
+            let newCount = output.set.intArray().count
+            if previousCount - newCount == 2 {
+                previousCount = newCount
+                setForEnumaration = output.set
+                containsPairs = true
+            } else {
+                containsPairs = false
+                break
+            }
+        }
+        
+        if containsPairs {
+            sum = getPoints(for: 0)
+            outputSet.removeAllObjects()
+        }
+        
+        return Output(sum: sum, set: outputSet)
+    }
+    
+    func getPoints(for value: Int) -> Int {
+        800
+    }
+    
+    
+}
+
 // MARK: - Straight
 
 public class StraightRule: CalculatorRule {
@@ -68,6 +113,7 @@ public class SameInRowRule: CalculatorRule {
             if originSet.count(for: element) >= repeatableCount {
                 sum += getPoints(for: element as! Int)
                 outputSet.removeElement(element: element as! Int, times: repeatableCount)
+                break
             }
         }
         
