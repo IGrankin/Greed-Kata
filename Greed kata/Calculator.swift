@@ -9,39 +9,47 @@ import Foundation
 
 class Calculator {
     
+    struct Output {
+        var sum: Int
+        var set: NSCountedSet
+    }
+    
     func calculate(_ moves: [Int]) -> Int {
         guard !moves.isEmpty else {
             return 0
         }
         
         var sum = 0
-        
         let countedSet = NSCountedSet(array: moves)
-        let updatedCountedSet = countedSet
         
-        sum += sumForTriples(countedSet, updatedCountedSet)
+        //triple counting
+        let tripleOutput = sumForTriples(countedSet)
+        sum += tripleOutput.sum
         
-        sum += sumForSingles(
-            countedSet,
-            updatedCountedSet,
+        //single counting
+        let singleOutput = sumForSingles(
+            tripleOutput.set,
             pointValues: getPointValues()
         )
+        sum += singleOutput.sum
         
         return sum
     }
     
     // MARK: - Triples
     
-    fileprivate func sumForTriples(_ originSet: NSCountedSet, _ updatedCountedSet: NSCountedSet) -> Int {
+    fileprivate func sumForTriples(_ originSet: NSCountedSet) -> Output {
         var sum = 0
+        let outputSet: NSCountedSet = originSet.copy() as! NSCountedSet
+        
         for element in originSet {
             if originSet.count(for: element) >= 3 {
                 sum += getTriplePoints(for: element as! Int)
-                removeElement(from: updatedCountedSet, element: element as! Int, times: 3)
+                outputSet.removeElement(element: element as! Int, times: 3)
             }
         }
         
-        return sum
+        return Output(sum: sum, set: outputSet)
     }
     
     fileprivate func getTriplePoints(for tripleValue: Int) -> Int {
@@ -57,23 +65,29 @@ class Calculator {
     
     // MARK: - Singles
     
-    fileprivate func sumForSingles(_ originSet: NSCountedSet, _ updatedCountedSet: NSCountedSet, pointValues: [Int]) -> Int {
+    fileprivate func sumForSingles(_ originSet: NSCountedSet, pointValues: [Int]) -> Output {
         var sum = 0
+        var outputSet: NSCountedSet = originSet.copy() as! NSCountedSet
+        
         for element in pointValues {
-            sum += sumForPointValues(originSet, updatedCountedSet, pointValue: element)
+            let output = sumForPointValues(outputSet, pointValue: element)
+            sum += output.sum
+            outputSet = output.set
             }
 
-        return sum
+        return Output(sum: sum, set: outputSet)
     }
     
-    fileprivate func sumForPointValues(_ originSet: NSCountedSet, _ updatedCountedSet: NSCountedSet, pointValue: Int) -> Int {
+    fileprivate func sumForPointValues(_ originSet: NSCountedSet, pointValue: Int) -> Output {
         var sum = 0
+        let outputSet: NSCountedSet = originSet.copy() as! NSCountedSet
+        
         for _ in 0..<originSet.count(for: pointValue) {
             sum += getPoints(for: pointValue)
-            updatedCountedSet.remove(pointValue)
+            outputSet.remove(pointValue)
         }
         
-        return sum
+        return Output(sum: sum, set: outputSet)
     }
     
     fileprivate func getPointValues() -> [Int] {
@@ -91,11 +105,14 @@ class Calculator {
         }
     }
 }
-    
-    // MARK: - helpers
-    
-    fileprivate func removeElement(from set: NSCountedSet, element: Int, times: Int) {
+
+// MARK: - helpers
+
+extension NSCountedSet {
+    public func removeElement(element: Int, times: Int) {
         for _ in 0..<times {
-            set.remove(element)
+            self.remove(element)
         }
     }
+}
+

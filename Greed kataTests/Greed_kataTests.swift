@@ -112,4 +112,9 @@ class Greed_kataTests: XCTestCase {
         let result = sut.calculate([3,4,5,3,3])
         XCTAssertEqual(result, 350)
     }
+    
+    func test_test() {
+        let result = sut.calculate([1,1,1,2,2])
+        XCTAssertEqual(result, 1000)
+    }
 }
