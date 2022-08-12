@@ -120,7 +120,7 @@ class Greed_kataTests: XCTestCase {
     
     // MARK: - extra
     
-    func test_sixValues() {
+    func test_sixValuesReturns100Points() {
         let result = sut.calculate([1, 2, 7, 7, 7, 7])
         XCTAssertEqual(result, 100)
     }
@@ -141,6 +141,12 @@ class Greed_kataTests: XCTestCase {
         sut = Calculator(rules: [SameInRowRule(repeatableCount: 6), SingleRule()])
         let result = sut.calculate([2,2,2,2,2,2])
         XCTAssertEqual(result, 1600)
+    }
+    
+    func test_straightReturns1200Points() {
+        sut = Calculator(rules: [StraightRule(), SingleRule()])
+        let result = sut.calculate([1,2,3,4,5,6])
+        XCTAssertEqual(result, 1200)
     }
     
 }

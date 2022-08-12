@@ -8,12 +8,45 @@
 import Foundation
 
 protocol CalculatorRule: AnyObject {
-    func sum(with set: NSCountedSet) -> Output
+    func sum(with originSet: NSCountedSet) -> Output
     func getPoints(for value: Int) -> Int
     var priority: Int { get }
 }
 
-// MARK: - FourOfKind
+// MARK: - Straight
+
+public class StraightRule: CalculatorRule {
+    var priority: Int = 10
+    
+    func sum(with originSet: NSCountedSet) -> Output {
+        let array = (originSet.allObjects as! Array<Int>).sorted { $0 < $1 }
+        var straightArray = true
+        var sum = 0
+        let outputSet = originSet.copy() as! NSCountedSet
+        
+        for index in 0..<array.count - 1 {
+            if straightArray, array[index+1] - array[index] == 1 {
+                continue
+            } else {
+                straightArray = false
+                break
+            }
+        }
+        
+        if straightArray {
+            sum += getPoints(for: 0)
+            outputSet.removeAllObjects()
+        }
+        
+        return Output(sum: sum, set: outputSet)
+    }
+    
+    func getPoints(for value: Int) -> Int {
+        return 1200
+    }
+}
+
+// MARK: - N Of Kind
 
 public class SameInRowRule: CalculatorRule {
     
