@@ -158,4 +158,11 @@ class Greed_kataTests: XCTestCase {
         XCTAssertEqual(result, 200)
     }
     
+    // MARK: - Pairs
+    
+    func test_3PairsReturns800Points() {
+        let result = sut.calculate([2,2,3,3,4,4])
+        XCTAssertEqual(result, 800)
+    }
+    
 }
