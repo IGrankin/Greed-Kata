@@ -31,4 +31,9 @@ class Greed_kataTests: XCTestCase {
         let result = sut.calculate([5])
         XCTAssertEqual(result, 50)
     }
+    
+    func test_Not1And5NumbersReturnsZeroPoints() {
+        let result = sut.calculate([2,3,4,2,3])
+        XCTAssertEqual(result, 0)
+    }
 }
