@@ -14,7 +14,7 @@ class Greed_kataTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        sut = Calculator()
+        sut = Calculator(rules: [TripleRule(), SingleRule()])
     }
     
     func test_zeroMovesReturnsZeroPoints() {
