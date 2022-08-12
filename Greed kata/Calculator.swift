@@ -15,7 +15,11 @@ class Calculator {
         
         var sum = 0
         
-        if moves.contains(1) {
+        var countedSet = NSCountedSet(array: moves)
+        
+        if countedSet.count(for: 1) == 3 {
+            sum += 1000
+        } else if moves.contains(1) {
             sum += 100
         }
         
