@@ -15,22 +15,42 @@ class Calculator {
         
         var sum = 0
         
-        var countedSet = NSCountedSet(array: moves)
+        let countedSet = NSCountedSet(array: moves)
+        let updatedCountedSet = countedSet
         
-        if countedSet.count(for: 1) == 3 {
-            sum += 1000
-        } else if moves.contains(1) {
+        for element in countedSet {
+            if countedSet.count(for: element) == 3 {
+                sum += getPoints(for: element as! Int)
+                removeTripleElement(from: updatedCountedSet, element: element as! Int)
+            }
+        }
+        
+        
+        if updatedCountedSet.contains(1) {
             sum += 100
         }
         
-        if countedSet.count(for: 2) == 3 {
-            sum += 200
-        }
-        
-        if moves.contains(5) {
+        if updatedCountedSet.contains(5) {
             sum += 50
         }
         
         return sum
+    }
+    
+    func removeTripleElement(from set: NSCountedSet, element: Int) {
+        for _ in 0...2 {
+            set.remove(element)
+        }
+    }
+    
+    func getPoints(for tripleValue: Int) -> Int {
+        switch tripleValue {
+        case 1:
+            return 1000
+        case 2...6:
+            return tripleValue * 100
+        default:
+            return 0
+        }
     }
 }
