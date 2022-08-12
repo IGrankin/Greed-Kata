@@ -41,4 +41,9 @@ class Greed_kataTests: XCTestCase {
         let result = sut.calculate([1,5])
         XCTAssertEqual(result, 150)
     }
+    
+    func test_Triple1Returns1000Points() {
+        let result = sut.calculate([1,1,1])
+        XCTAssertEqual(result, 1000)
+    }
 }
