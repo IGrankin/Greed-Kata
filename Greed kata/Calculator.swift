@@ -19,7 +19,7 @@ class Calculator {
         let updatedCountedSet = countedSet
         
         for element in countedSet {
-            if countedSet.count(for: element) == 3 {
+            if countedSet.count(for: element) >= 3 {
                 sum += getPoints(for: element as! Int)
                 removeTripleElement(from: updatedCountedSet, element: element as! Int)
             }
