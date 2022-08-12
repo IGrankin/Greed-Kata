@@ -17,26 +17,22 @@ class Calculator {
     var rules: [CalculatorRule]!
     
     init(rules: [CalculatorRule]) {
-        self.rules = rules
+        self.rules = rules.sorted { $0.priority.rawValue < $1.priority.rawValue }
     }
     
     func calculate(_ moves: [Int]) -> Int {
-        guard !moves.isEmpty else {
+        guard !moves.isEmpty, !rules.isEmpty else {
             return 0
         }
         
         var sum = 0
         let countedSet = NSCountedSet(array: moves)
+        var output = Output(sum: sum, set: countedSet)
         
-        //triple counting
-        let tripleRule = rules.first!
-        let tripleOutput = tripleRule.sum(with: countedSet)
-        sum += tripleOutput.sum
-        
-        //single counting
-        let singleRule = rules.last!
-        let singleOutput = singleRule.sum(with: tripleOutput.set)
-        sum += singleOutput.sum
+        for rule in rules {
+            output = rule.sum(with: output.set)
+            sum += output.sum
+        }
         
         return sum
     }
