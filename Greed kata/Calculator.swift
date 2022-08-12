@@ -26,8 +26,15 @@ class Calculator {
         }
         
         
-        if updatedCountedSet.contains(1) {
+//        if updatedCountedSet.contains(1) {
+//            sum += 100
+//        }
+        
+        let last1Count = countedSet.count(for: 1)
+        
+        for _ in 0..<last1Count {
             sum += 100
+            updatedCountedSet.remove(1)
         }
         
         if updatedCountedSet.contains(5) {
