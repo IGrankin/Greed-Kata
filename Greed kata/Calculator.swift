@@ -17,6 +17,10 @@ class Calculator {
             return 1
         }
         
+        if moves.contains(5) {
+            return 5
+        }
+        
         return 0
     }
 }
