@@ -14,11 +14,11 @@ class Calculator {
         }
         
         if moves.contains(1) {
-            return 1
+            return 100
         }
         
         if moves.contains(5) {
-            return 5
+            return 50
         }
         
         return 0

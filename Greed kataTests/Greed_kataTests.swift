@@ -24,11 +24,11 @@ class Greed_kataTests: XCTestCase {
     
     func test_1Returns1Point() {
         let result = sut.calculate([1])
-        XCTAssertEqual(result, 1)
+        XCTAssertEqual(result, 100)
     }
     
     func test_5Returns5Point() {
         let result = sut.calculate([5])
-        XCTAssertEqual(result, 5)
+        XCTAssertEqual(result, 50)
     }
 }
