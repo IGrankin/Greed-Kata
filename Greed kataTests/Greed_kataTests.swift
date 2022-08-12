@@ -9,16 +9,16 @@ import XCTest
 @testable import Greed_kata
 
 class Greed_kataTests: XCTestCase {
+    
+    var sut: Calculator!
 
-    func test_ZeroMovesReturnsZeroPoints() {
-        let result = Calculator().calculate([])
-        XCTAssertEqual(result, 0)
+    override func setUp() {
+        super.setUp()
+        sut = Calculator()
     }
-
-}
-
-class Calculator {
-    func calculate(_ moves: [Int]) -> Int {
-        return 0
+    
+    func test_ZeroMovesReturnsZeroPoints() {
+        let result = sut.calculate([])
+        XCTAssertEqual(result, 0)
     }
 }
