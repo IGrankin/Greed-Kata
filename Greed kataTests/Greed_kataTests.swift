@@ -43,6 +43,7 @@ class Greed_kataTests: XCTestCase {
     }
     
     // MARK: - triples
+    
     func test_triple1Returns1000Points() {
         let result = sut.calculate([1,1,1])
         XCTAssertEqual(result, 1000)
@@ -90,8 +91,25 @@ class Greed_kataTests: XCTestCase {
         XCTAssertEqual(result, 1150)
     }
     
-    func test_all1Return1200points() {
+    func test_all1Returns1200points() {
         let result = sut.calculate([1,1,1,1,1])
         XCTAssertEqual(result, 1200)
+    }
+    
+    func test_double1AndDouble5Returns300Points() {
+        let result = sut.calculate([1,1,5,5,9])
+        XCTAssertEqual(result, 300)
+    }
+    
+    // MARK: - Examples
+    
+    func test_nonPointValuesReturnZeroPoints() {
+        let result = sut.calculate([2,3,4,6,2])
+        XCTAssertEqual(result, 0)
+    }
+    
+    func test_tripleAnd5Returns450Points() {
+        let result = sut.calculate([3,4,5,3,3])
+        XCTAssertEqual(result, 350)
     }
 }
