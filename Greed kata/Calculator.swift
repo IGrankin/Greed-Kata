@@ -23,6 +23,10 @@ class Calculator {
             sum += 100
         }
         
+        if countedSet.count(for: 2) == 3 {
+            sum += 200
+        }
+        
         if moves.contains(5) {
             sum += 50
         }
