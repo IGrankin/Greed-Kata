@@ -46,4 +46,23 @@ extension NSCountedSet {
             self.remove(element)
         }
     }
+    
+    public func intArray() -> Array<Int> {
+        var resultArray: Array<Int> = []
+        
+        for element in self {
+            let count = count(for: element)
+            resultArray.add(element as! Int, times: count)
+        }
+        
+        return resultArray
+    }
+}
+
+extension Array where Element == Int {
+    mutating func add(_ element: Int, times: Int) {
+        for _ in 0..<times {
+            self.append(element)
+        }
+    }
 }

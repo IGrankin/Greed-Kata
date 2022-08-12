@@ -19,13 +19,15 @@ public class StraightRule: CalculatorRule {
     var priority: Int = 10
     
     func sum(with originSet: NSCountedSet) -> Output {
-        let array = (originSet.allObjects as! Array<Int>).sorted { $0 < $1 }
+        let array = originSet.intArray().sorted { $0 < $1 }
         var straightArray = true
         var sum = 0
         let outputSet = originSet.copy() as! NSCountedSet
         
         for index in 0..<array.count - 1 {
-            if straightArray, array[index+1] - array[index] == 1 {
+            let currentValue = array[index]
+            let nextValue = array[index+1]
+            if straightArray, nextValue - currentValue == 1 {
                 continue
             } else {
                 straightArray = false
