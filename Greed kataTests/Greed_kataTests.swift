@@ -14,7 +14,7 @@ class Greed_kataTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        sut = Calculator(rules: [TripleRule(), SingleRule()])
+        sut = Calculator(rules: [SameInRowRule(repeatableCount: 3), SingleRule()])
     }
     
     func test_zeroMovesReturnsZeroPoints() {
@@ -124,4 +124,23 @@ class Greed_kataTests: XCTestCase {
         let result = sut.calculate([1, 2, 7, 7, 7, 7])
         XCTAssertEqual(result, 100)
     }
+    
+    func test_4OfKindOf2InRowReturns400Points() {
+        sut = Calculator(rules: [SameInRowRule(repeatableCount: 4), SingleRule()])
+        let result = sut.calculate([2,2,2,2])
+        XCTAssertEqual(result, 400)
+    }
+    
+    func test_5OfKindOf2InRowReturns800Points() {
+        sut = Calculator(rules: [SameInRowRule(repeatableCount: 5), SingleRule()])
+        let result = sut.calculate([2,2,2,2,2])
+        XCTAssertEqual(result, 800)
+    }
+    
+    func test_6OfKindOf2InRowReturns800Points() {
+        sut = Calculator(rules: [SameInRowRule(repeatableCount: 6), SingleRule()])
+        let result = sut.calculate([2,2,2,2,2,2])
+        XCTAssertEqual(result, 1600)
+    }
+    
 }

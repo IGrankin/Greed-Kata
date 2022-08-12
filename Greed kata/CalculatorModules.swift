@@ -10,39 +10,60 @@ import Foundation
 protocol CalculatorRule: AnyObject {
     func sum(with set: NSCountedSet) -> Output
     func getPoints(for value: Int) -> Int
-    var priority: CalculatorPriority { get }
+    var priority: Int { get }
 }
 
-enum CalculatorPriority: Int {
-    case partly
-    case single
-}
+// MARK: - FourOfKind
 
-// MARK: - Triple
-
-public class TripleRule: CalculatorRule {
-    var priority: CalculatorPriority = .partly
+public class SameInRowRule: CalculatorRule {
+    
+    var repeatableCount: Int!
+    var priority: Int
+    
+    init(repeatableCount: Int) {
+        self.repeatableCount = repeatableCount
+        priority = repeatableCount
+    }
     
     func sum(with originSet: NSCountedSet) -> Output {
         var sum = 0
         let outputSet: NSCountedSet = originSet.copy() as! NSCountedSet
         
         for element in originSet {
-            if originSet.count(for: element) >= 3 {
+            if originSet.count(for: element) >= repeatableCount {
                 sum += getPoints(for: element as! Int)
-                outputSet.removeElement(element: element as! Int, times: 3)
+                outputSet.removeElement(element: element as! Int, times: repeatableCount)
             }
         }
         
         return Output(sum: sum, set: outputSet)
     }
     
+    // 3 100
+    // 4 100 * 2
+    // 5 100 * 4
+    // 6 100 * 8
+    func getInRowMultiplier(for repeatableCount: Int) -> Int {
+        switch repeatableCount {
+        case 3:
+            return 1
+        case 4:
+            return 2
+        case 5:
+            return 4
+        case 6:
+            return 8
+        default:
+            return 1
+        }
+    }
+    
     func getPoints(for value: Int) -> Int {
         switch value {
         case 1:
-            return 1000
+            return 1000 * getInRowMultiplier(for: repeatableCount)
         case 2...6:
-            return value * 100
+            return value * 100 * getInRowMultiplier(for: repeatableCount)
         default:
             return 0
         }
@@ -52,7 +73,7 @@ public class TripleRule: CalculatorRule {
 // MARK: - Single
 
 public class SingleRule: CalculatorRule {
-    var priority: CalculatorPriority = .single
+    var priority: Int = 1
     
     func sum(with originSet: NSCountedSet) -> Output {
         var sum = 0

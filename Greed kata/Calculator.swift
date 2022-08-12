@@ -17,7 +17,7 @@ class Calculator {
     var rules: [CalculatorRule]!
     
     init(rules: [CalculatorRule]) {
-        self.rules = rules.sorted { $0.priority.rawValue < $1.priority.rawValue }
+        self.rules = rules.sorted { $0.priority > $1.priority }
     }
     
     func calculate(_ moves: [Int]) -> Int {
